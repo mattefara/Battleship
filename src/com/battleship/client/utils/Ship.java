@@ -1,4 +1,4 @@
-package com.battleship.client;
+package com.battleship.client.utils;
 
 import com.battleship.utils.Position;
 
