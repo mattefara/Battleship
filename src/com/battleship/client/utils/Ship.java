@@ -4,16 +4,17 @@ import com.battleship.utils.Position;
 
 public class Ship {
 
+    //Enum for Orientation
     public enum Orientation{
-        HORIZONTAL, VERTICAL
+        HORIZONTAL, VERTICAL;
     };
 
+    //Enum for the status of the ship
     public enum Status {
-        NORMAL, HIT, SINK
+        NORMAL, HIT, SINK;
     }
 
     public final int SIZE;
-
     private Orientation orientation;
     private Position shipPosition;
     private int hitCount = 0;
@@ -31,7 +32,8 @@ public class Ship {
     public Ship(){
         this.orientation = Orientation.HORIZONTAL;
         this.SIZE = 1;
-        this.hitCount = -1;
+        this.hitCount = 0;
+
     }
 
     public void hit(){
@@ -64,13 +66,29 @@ public class Ship {
         }
     }
 
-    public Orientation getOrientation() {
-        return orientation;
+    public Position getShipPosition() {
+        return shipPosition;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        return obj instanceof Ship && this.SIZE == ((Ship) obj).SIZE;
+    public void setShipPosition(Position position) {
+        this.shipPosition = position;
+    }
+
+    public Position[] getShipPositions(){
+        if (this.getOrientation() == Orientation.HORIZONTAL){
+            Position[] positions = new Position[this.SIZE];
+            Position[][] matrixPositions = Position.betweenPositions(this.shipPosition, this.shipPosition.addToX(this.SIZE));
+            for (int i = 0; i < this.SIZE; i++){
+                positions[i] = matrixPositions[i][0];
+            }
+            return positions;
+        } else {
+            return Position.betweenPositions(this.shipPosition, this.shipPosition.addToY(this.SIZE - 1))[0];
+        }
+    }
+
+    public Orientation getOrientation() {
+        return orientation;
     }
 
     public void setOrientation(Orientation orientation) {
@@ -88,5 +106,10 @@ public class Ship {
                 break;
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Ship && this.SIZE == ((Ship) obj).SIZE;
     }
 }
