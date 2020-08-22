@@ -2,8 +2,6 @@ package com.battleship.client.field;
 
 import com.battleship.utils.Position;
 
-import java.awt.*;
-
 public class BattleField implements Grid<BattleField.BattleCell>{
 
     private final BattleCell[][] cells;
@@ -40,6 +38,32 @@ public class BattleField implements Grid<BattleField.BattleCell>{
         this.getCell(position).setStatus(status);
     }
 
+    public boolean isInsideGrid(Position position){
+        return position.between(new Position(1, 1), new Position(this.getCols() - 1, this.getRows() - 1));
+    }
+
+    public boolean areInsideGrid(Position[] positions){
+        for (Position position: positions){
+            if (!this.isInsideGrid(position)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isFreeCell(Position position){
+        return this.existCell(position) && this.getCell(position).isFree();
+    }
+
+    public boolean areFreeCells(Position[] positions){
+        for (Position position: positions){
+            if (!this.isFreeCell(position)){
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public BattleCell getCell(Position position) {
         if (this.existCell(position))
@@ -47,26 +71,10 @@ public class BattleField implements Grid<BattleField.BattleCell>{
         return null;
     }
 
-    public Color toColor(BattleCell.Status status){
-        switch (status){
-            default:
-            case BLANK:
-                return Color.WHITE;
-            case BLUEPRINT:
-                return Color.BLUE;
-            case HIT:
-                return Color.RED;
-            case MISS:
-                return Color.LIGHT_GRAY;
-            case FOCUS:
-                return Color.GRAY;
-        }
-    }
-
     public static class BattleCell implements Grid.Cell{
 
         public enum Status {
-            BLANK, BLUEPRINT, HIT, MISS, FOCUS,
+            BLANK, BLUEPRINT, HIT, MISS, PLACED,
         }
 
         public Status status;

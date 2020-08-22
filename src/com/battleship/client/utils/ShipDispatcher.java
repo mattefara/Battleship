@@ -24,10 +24,10 @@ public class ShipDispatcher {
     }
 
     private final CountedShip[] ships = {
-            new CountedShip(new Position(-1, -1), 1, 1),
-            new CountedShip(new Position(-1, -1), 2, 2),
-            new CountedShip(new Position(-1, -1), 3, 3),
-            new CountedShip(new Position(-1, -1), 4, 4),
+            new CountedShip(new Position(), 4, 1),
+            new CountedShip(new Position(), 3, 2),
+            new CountedShip(new Position(), 2, 3),
+            new CountedShip(new Position(), 1, 4),
     };
 
     private final int MAX_SHIPS = ships.length;
