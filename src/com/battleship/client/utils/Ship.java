@@ -33,6 +33,7 @@ public class Ship {
         this.orientation = Orientation.HORIZONTAL;
         this.SIZE = 1;
         this.hitCount = 0;
+
     }
 
     public void hit(){
